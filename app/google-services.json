@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "445643438198",
+    "project_id": "custom-social-network",
+    "storage_bucket": "custom-social-network.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445643438198:android:126a58c03eac26ae2f4757",
+        "android_client_info": {
+          "package_name": "com.example.snplc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "445643438198-ljqblaihddobsvob11iur5nkts8cqc45.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHIm1VHiiFctjyTwiXSF_K9c_-m2Z0M3s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "445643438198-ljqblaihddobsvob11iur5nkts8cqc45.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
