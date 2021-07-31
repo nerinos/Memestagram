@@ -1,4 +1,4 @@
-package com.example.snplc.ui.auth.fragments
+package com.example.snplc.ui.main.fragments
 
 import android.graphics.Color
 import android.os.Bundle
@@ -14,7 +14,6 @@ import androidx.transition.TransitionManager
 import com.example.snplc.R
 import com.example.snplc.data.entities.User
 import com.example.snplc.other.EventObserver
-import com.example.snplc.ui.main.fragments.ProfileFragment
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class OthersProfileFragment : ProfileFragment() {

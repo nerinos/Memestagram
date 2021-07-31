@@ -5,7 +5,9 @@ import android.view.View
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.RequestManager
+import com.example.snplc.R
 import com.example.snplc.adapters.PostAdapter
 import com.example.snplc.adapters.UserAdapter
 import com.example.snplc.other.EventObserver
@@ -26,7 +28,7 @@ abstract class BasePostFragment(
     @Inject
     lateinit var postAdapter: PostAdapter
 
-    protected abstract val postProgressBar: ProgressBar
+//    protected abstract val postProgressBar: ProgressBar
 
     protected abstract val basePostViewModel: BasePostViewModel
 
@@ -54,6 +56,15 @@ abstract class BasePostFragment(
         postAdapter.setOnLikedByClickListener { post ->
             basePostViewModel.getUsers(post.likedBy)
         }
+
+        postAdapter.setOnCommentsClickListener { post ->
+            findNavController().navigate(
+                R.id.globalActionToCommentDialog,
+                Bundle().apply {
+                    putString("postId", post.id)
+                }
+            )
+        }
     }
 
     private fun subscribeToObservers() {
@@ -64,12 +75,18 @@ abstract class BasePostFragment(
         ) { users ->
             val userAdapter = UserAdapter(glide)
             userAdapter.users = users
+            userAdapter.setOnUserClickListener { user ->
+                
+                findNavController().navigate(
+                    SearchFragmentDirections.globalActionToOthersProfileFragment(user.uid)
+                )
+            }
             LikedByDialog(userAdapter).show(childFragmentManager, null)
         })
         basePostViewModel.likePostStatus.observe(viewLifecycleOwner, EventObserver(
             onError = {
                 curLikedIndex?.let { index ->
-                    postAdapter.posts[index].isLiking = false
+                    postAdapter.peek(index)?.isLiking = false
                     postAdapter.notifyItemChanged(index)
                 }
                 snackbar(it)
@@ -77,16 +94,16 @@ abstract class BasePostFragment(
             },
             onLoading = {
                 curLikedIndex?.let { index ->
-                    postAdapter.posts[index].isLiking = true
+                    postAdapter.peek(index)?.isLiking = true
                     postAdapter.notifyItemChanged(index)
                 }
             }
         ) { isLiked ->
             curLikedIndex?.let { index ->
                 val uid = FirebaseAuth.getInstance().uid!!
-                postAdapter.posts[index].apply {
+                postAdapter.peek(index)?.apply {
                     this.isLiked = isLiked
-                    postAdapter.posts[index].isLiking = false
+                    postAdapter.peek(index)?.isLiking = false
                     if (isLiked) {
                         likedBy += uid
                     } else {
@@ -97,22 +114,23 @@ abstract class BasePostFragment(
             }
 
         })
-        basePostViewModel.deletePostStatus.observe(viewLifecycleOwner, EventObserver(
-            onError = { snackbar(it) }
-        ) { deletedPost ->
-            postAdapter.posts -= deletedPost
-        })
-        basePostViewModel.posts.observe(viewLifecycleOwner, EventObserver(
-            onError = {
-                postProgressBar.isVisible = false
-                snackbar(it)
-            },
-            onLoading = {
-                postProgressBar.isVisible = true
-            }
-        ){ posts ->
-            postProgressBar.isVisible = false
-            postAdapter.posts = posts
-        })
+        // not needed with paging3
+//        basePostViewModel.deletePostStatus.observe(viewLifecycleOwner, EventObserver(
+//            onError = { snackbar(it) }
+//        ) { deletedPost ->
+//            postAdapter.posts -= deletedPost
+//        })
+//        basePostViewModel.posts.observe(viewLifecycleOwner, EventObserver(
+//            onError = {
+//                postProgressBar.isVisible = false
+//                snackbar(it)
+//            },
+//            onLoading = {
+//                postProgressBar.isVisible = true
+//            }
+//        ){ posts ->
+//            postProgressBar.isVisible = false
+//            postAdapter.posts = posts
+//        })
     }
 }

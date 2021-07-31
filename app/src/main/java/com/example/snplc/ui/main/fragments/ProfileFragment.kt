@@ -6,6 +6,8 @@ import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.snplc.R
 import com.example.snplc.other.EventObserver
@@ -16,11 +18,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 open class ProfileFragment() : BasePostFragment(R.layout.fragment_profile) {
-    override val postProgressBar: ProgressBar
-        get() = profilePostsProgressBar
+//    override val postProgressBar: ProgressBar
+//        get() = profilePostsProgressBar
     override val basePostViewModel: BasePostViewModel
         get() {
             val vm: ProfileViewModel by viewModels()
@@ -40,6 +45,20 @@ open class ProfileFragment() : BasePostFragment(R.layout.fragment_profile) {
 
         btnToggleFollow.isVisible = false
         viewModel.loadProfile(uid)
+
+        lifecycleScope.launch {
+            viewModel.getPagingFlow(uid).collect {
+                postAdapter.submitData(it)
+            }
+
+        }
+
+        lifecycleScope.launch {
+            postAdapter.loadStateFlow.collectLatest {
+                profilePostsProgressBar?.isVisible = it.refresh is LoadState.Loading ||
+                        it.append is LoadState.Loading
+            }
+        }
     }
 
     private fun setupRecyclerView() = rvPosts.apply {
@@ -62,6 +81,13 @@ open class ProfileFragment() : BasePostFragment(R.layout.fragment_profile) {
                 requireContext().getString(R.string.no_description)
             } else user.description
             glide.load(user.profilePictureUrl).into(ivProfileImage)
+        })
+
+        basePostViewModel.deletePostStatus.observe(viewLifecycleOwner, EventObserver(
+            onError = { snackbar(it) }
+        ) { deletedPost ->
+            postAdapter.refresh()
+//            postAdapter.posts -= deletedPost
         })
     }
 

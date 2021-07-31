@@ -1,10 +1,11 @@
 package com.example.snplc.repositories
 
 import android.net.Uri
-import android.util.Log
 import com.example.snplc.data.entities.Comment
 import com.example.snplc.data.entities.Post
+import com.example.snplc.data.entities.ProfileUpdate
 import com.example.snplc.data.entities.User
+import com.example.snplc.other.Constants.DEFAULT_PROFILE_PICTURE_URL
 import com.example.snplc.other.Resource
 import com.example.snplc.other.safeCall
 import com.google.firebase.auth.FirebaseAuth
@@ -49,9 +50,14 @@ class DefaultMainRepository : MainRepository {
     // get users who liked the post
     override suspend fun getUsers(uids: List<String>) = withContext(Dispatchers.IO) {
         safeCall {
-            val usersList = users.whereIn("uid", uids).orderBy("username").get().await()
-                .toObjects(User::class.java)
-            Resource.Success(usersList)
+            val chunks = uids.chunked(10)
+            val resultList = mutableListOf<User>()
+            chunks.forEach{ chunk ->
+                val usersList = users.whereIn("uid", chunk).orderBy("username").get().await()
+                    .toObjects(User::class.java)
+                resultList.addAll(usersList)
+            }
+            Resource.Success(resultList.toList())
         }
     }
     // get user to show his profile
@@ -190,10 +196,40 @@ class DefaultMainRepository : MainRepository {
                     .await()
                     .toObjects(Comment::class.java)
                     .onEach { comment ->
-                        comment.username
+                        val user = getUser(comment.uid).data!!
+                        comment.username = user.username
+                        comment.profilePictureUrl = user.profilePictureUrl
                     }
                 Resource.Success(commentsForPost)
             }
         }
 
+    override suspend fun updateProfile(profileUpdate: ProfileUpdate): Resource<Any> =
+        withContext(Dispatchers.IO) {
+            safeCall {
+                val imageUrl = profileUpdate.profilePictureUri?.let { uri ->
+                    updateProfilePicture(profileUpdate.uidToUpdate, uri).toString()
+                }
+                val map = mutableMapOf(
+                    "username" to profileUpdate.username,
+                    "description" to profileUpdate.description
+                )
+
+                imageUrl?.let { url ->
+                    map["profilePictureUrl"] = url
+                }
+                users.document(profileUpdate.uidToUpdate).update(map.toMap()).await()
+                Resource.Success(Any())
+            }
+        }
+
+    override suspend fun updateProfilePicture(uid: String, imageUri: Uri): Uri? =
+        withContext(Dispatchers.IO) {
+            val storageRef = storage.getReference(uid);
+            val user = getUser(uid).data!!
+            if (user.profilePictureUrl != DEFAULT_PROFILE_PICTURE_URL) {
+                storage.getReferenceFromUrl(user.profilePictureUrl).delete().await()
+            }
+            storageRef.putFile(imageUri).await().metadata?.reference?.downloadUrl?.await()
+        }
 }

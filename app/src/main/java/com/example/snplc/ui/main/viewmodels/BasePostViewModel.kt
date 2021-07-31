@@ -26,9 +26,9 @@ abstract class BasePostViewModel(
     private val _likedByUsers = MutableLiveData<Event<Resource<List<User>>>>()
     val likedByUsers: LiveData<Event<Resource<List<User>>>> = _likedByUsers
 
-    abstract val posts: LiveData<Event<Resource<List<Post>>>>
+//    abstract val posts: LiveData<Event<Resource<List<Post>>>> removed with paging3
 
-    abstract fun getPosts(uid: String = "")
+//    abstract fun getPosts(uid: String = "") removed with paging3
 
     fun getUsers(uids: List<String>) {
         if (uids.isEmpty()) return
