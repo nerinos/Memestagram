@@ -1,6 +1,7 @@
 package com.example.snplc.data.pagingsource
 
 import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.example.snplc.data.entities.Post
 import com.example.snplc.data.entities.User
 import com.google.firebase.auth.FirebaseAuth
@@ -70,4 +71,9 @@ class FollowPostsPagingSource(
             LoadResult.Error(e)
         }
     }
+
+    override fun getRefreshKey(state: PagingState<QuerySnapshot, Post>): QuerySnapshot? {
+        return null
+    }
+
 }

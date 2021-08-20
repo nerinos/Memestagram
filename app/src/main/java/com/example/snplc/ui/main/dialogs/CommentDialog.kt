@@ -3,6 +3,7 @@ package com.example.snplc.ui.main.dialogs
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -103,6 +104,7 @@ class CommentDialog : DialogFragment() {
         viewModel.commentsForPost.observe(viewLifecycleOwner, EventObserver(
             onError = {
                 commentProgressBar.isVisible = false
+                Log.e("SAMPLE_TAG", "exception: " + it)
                 snackbar(it)
             },
             onLoading = { commentProgressBar.isVisible = true

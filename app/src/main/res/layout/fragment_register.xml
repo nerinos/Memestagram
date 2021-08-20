@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:ems="15"
             android:hint="@string/email"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorAccent"
             android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="15"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorAccent"
             android:hint="@string/username"
             android:inputType="text" />
 
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="15"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorAccent"
             android:hint="@string/password"
             android:inputType="textPassword" />
 
@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorAccent"
             android:ems="15"
             android:hint="@string/repeat_password" />
 
@@ -119,6 +119,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

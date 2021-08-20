@@ -1,6 +1,6 @@
 package com.example.snplc.adapters
 
-import android.view.LayoutInflater
+import  android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton

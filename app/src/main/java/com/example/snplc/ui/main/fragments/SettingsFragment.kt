@@ -21,8 +21,8 @@ import com.example.snplc.ui.slideUpViews
 import com.example.snplc.ui.snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
-import com.theartofdev.edmodo.cropper.CropImage
-import com.theartofdev.edmodo.cropper.CropImageView
+import com.canhub.cropper.CropImage
+import com.canhub.cropper.CropImageView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
 import javax.inject.Inject
@@ -48,7 +48,7 @@ class SettingsFragment() : Fragment(R.layout.fragment_settings) {
         }
 
         override fun parseResult(resultCode: Int, intent: Intent?): Uri? {
-            return CropImage.getActivityResult(intent)?.uri
+            return CropImage.getActivityResult(intent)?.uriContent
         }
     }
 

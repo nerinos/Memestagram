@@ -2,6 +2,7 @@ package com.example.snplc.ui.main.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager

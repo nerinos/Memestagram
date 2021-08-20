@@ -1,6 +1,7 @@
 package com.example.snplc.ui.main.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
@@ -84,9 +85,15 @@ open class ProfileFragment() : BasePostFragment(R.layout.fragment_profile) {
         })
 
         basePostViewModel.deletePostStatus.observe(viewLifecycleOwner, EventObserver(
-            onError = { snackbar(it) }
+            onError = {
+                snackbar(it)
+            }
         ) { deletedPost ->
-            postAdapter.refresh()
+            lifecycleScope.launch {
+                viewModel.getPagingFlow(uid).collect {
+                    postAdapter.submitData(it)
+                }
+            }
 //            postAdapter.posts -= deletedPost
         })
     }

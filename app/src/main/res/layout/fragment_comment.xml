@@ -45,6 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:maxLines="3"
+            android:textColor="@color/colorAccent"
             android:inputType="textMultiLine" />
 
     </com.google.android.material.textfield.TextInputLayout>

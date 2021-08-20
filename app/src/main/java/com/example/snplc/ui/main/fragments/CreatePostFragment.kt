@@ -18,8 +18,8 @@ import com.example.snplc.other.EventObserver
 import com.example.snplc.ui.main.viewmodels.CreatePostViewModel
 import com.example.snplc.ui.slideUpViews
 import com.example.snplc.ui.snackbar
-import com.theartofdev.edmodo.cropper.CropImage
-import com.theartofdev.edmodo.cropper.CropImageView
+import com.canhub.cropper.CropImage
+import com.canhub.cropper.CropImageView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_create_post.*
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -44,7 +44,7 @@ class CreatePostFragment() : Fragment(R.layout.fragment_create_post) {
         }
 
         override fun parseResult(resultCode: Int, intent: Intent?): Uri? {
-            return CropImage.getActivityResult(intent)?.uri
+            return CropImage.getActivityResult(intent)?.uriContent
         }
     }
 

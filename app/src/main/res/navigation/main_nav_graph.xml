@@ -28,6 +28,9 @@
     <action android:id="@+id/globalActionToOthersProfileFragment"
         app:destination="@+id/othersProfileFragment"/>
 
+    <action android:id="@+id/globalActionToProfileFragment"
+        app:destination="@+id/profileFragment"/>
+
     <action android:id="@+id/globalActionToCreatePostFragment"
         app:destination="@+id/createPostFragment"/>
     <action android:id="@+id/globalActionToCommentDialog"

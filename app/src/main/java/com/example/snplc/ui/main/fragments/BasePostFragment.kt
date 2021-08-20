@@ -1,6 +1,7 @@
 package com.example.snplc.ui.main.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
@@ -65,6 +66,14 @@ abstract class BasePostFragment(
                 }
             )
         }
+        postAdapter.setOnUserClickListener { authorId ->
+            findNavController().navigate(
+                R.id.globalActionToOthersProfileFragment,
+                Bundle().apply {
+                    putString("uid", authorId)
+                }
+            )
+        }
     }
 
     private fun subscribeToObservers() {
@@ -76,10 +85,17 @@ abstract class BasePostFragment(
             val userAdapter = UserAdapter(glide)
             userAdapter.users = users
             userAdapter.setOnUserClickListener { user ->
-                
-                findNavController().navigate(
-                    SearchFragmentDirections.globalActionToOthersProfileFragment(user.uid)
-                )
+                if (user.uid == FirebaseAuth.getInstance().uid) {
+                    snackbar("Your profile")
+                    findNavController().navigate(
+                        SearchFragmentDirections.globalActionToProfileFragment()
+
+                    )
+                } else {
+                    findNavController().navigate(
+                        SearchFragmentDirections.globalActionToOthersProfileFragment(user.uid)
+                    )
+                }
             }
             LikedByDialog(userAdapter).show(childFragmentManager, null)
         })
@@ -114,6 +130,7 @@ abstract class BasePostFragment(
             }
 
         })
+
         // not needed with paging3
 //        basePostViewModel.deletePostStatus.observe(viewLifecycleOwner, EventObserver(
 //            onError = { snackbar(it) }
