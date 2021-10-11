@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -85,17 +86,10 @@ abstract class BasePostFragment(
             val userAdapter = UserAdapter(glide)
             userAdapter.users = users
             userAdapter.setOnUserClickListener { user ->
-                if (user.uid == FirebaseAuth.getInstance().uid) {
-                    snackbar("Your profile")
-                    findNavController().navigate(
-                        SearchFragmentDirections.globalActionToProfileFragment()
-
-                    )
-                } else {
-                    findNavController().navigate(
-                        SearchFragmentDirections.globalActionToOthersProfileFragment(user.uid)
-                    )
-                }
+                val bundle = bundleOf(Pair("uid", user.uid))
+                findNavController().navigate(
+                    R.id.othersProfileFragment, bundle
+                )
             }
             LikedByDialog(userAdapter).show(childFragmentManager, null)
         })

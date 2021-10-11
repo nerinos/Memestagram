@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.snplc.R
 import com.example.snplc.adapters.UserAdapter
-import com.example.snplc.ui.main.fragments.SearchFragmentDirections
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class LikedByDialog(

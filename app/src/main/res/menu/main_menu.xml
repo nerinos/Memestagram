@@ -3,9 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/miLogout"
+        android:id="@+id/miSettings"
         android:enabled="true"
-        android:title="@string/logout"
-        app:showAsAction="never" />
+        android:title="@string/settings"
+        android:icon="@drawable/ic_settings"
+        app:showAsAction="ifRoom" />
+
+<!--    <item-->
+<!--        android:id="@+id/miLogout"-->
+<!--        android:enabled="true"-->
+<!--        android:title="@string/logout"-->
+<!--        app:showAsAction="never" />-->
 
 </menu>

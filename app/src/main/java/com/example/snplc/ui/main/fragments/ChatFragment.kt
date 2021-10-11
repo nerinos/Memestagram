@@ -24,10 +24,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SearchFragment() : Fragment(R.layout.fragment_search) {
+class ChatFragment() : Fragment(R.layout.fragment_chat) {
 
-    @Inject
-    lateinit var userAdapter: UserAdapter
+//    @Inject
+//    lateinit var userAdapter: CAdapter
 
     private val viewModel: SearchViewModel by viewModels()
 
@@ -47,16 +47,16 @@ class SearchFragment() : Fragment(R.layout.fragment_search) {
             }
         }
 
-        userAdapter.setOnUserClickListener { user ->
-            findNavController().navigate(
-                OthersProfileFragmentDirections.globalActionToOthersProfileFragment(user.uid)
-            )
-        }
+//        userAdapter.setOnUserClickListener { user ->
+//            findNavController().navigate(
+//                OthersProfileFragmentDirections.globalActionToOthersProfileFragment(user.uid)
+//            )
+//        }
     }
 
     private fun setupRecyclerView() = rvSearchResults.apply {
         layoutManager = LinearLayoutManager(requireContext())
-        adapter = userAdapter
+//        adapter = userAdapter
         itemAnimator = null
     }
 
@@ -71,7 +71,7 @@ class SearchFragment() : Fragment(R.layout.fragment_search) {
             }
         ) { users ->
             searchProgressBar.isVisible = false
-            userAdapter.users = users
+//            userAdapter.users = users
         })
     }
 }
