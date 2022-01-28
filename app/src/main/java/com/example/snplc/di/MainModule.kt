@@ -5,14 +5,14 @@ import com.example.snplc.repositories.MainRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.scopes.ActivityScoped
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
-@InstallIn(ActivityComponent::class)
+@InstallIn(ViewModelComponent::class)
 object MainModule {
 
-    @ActivityScoped
+    @ViewModelScoped
     @Provides
     fun provideMainRepository() = DefaultMainRepository() as MainRepository
 }

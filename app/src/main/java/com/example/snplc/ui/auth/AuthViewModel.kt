@@ -3,7 +3,6 @@ package com.example.snplc.ui.auth
 import android.content.Context
 import android.util.Log
 import android.util.Patterns
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,13 +15,15 @@ import com.example.snplc.other.Event
 import com.example.snplc.other.Resource
 import com.example.snplc.repositories.AuthRepository
 import com.google.firebase.auth.AuthResult
-import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
-class AuthViewModel @ViewModelInject constructor(
+@HiltViewModel
+class AuthViewModel @Inject constructor(
     private val repository: AuthRepository,
     private val applicationContext: Context,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Main // just for tests

@@ -1,20 +1,20 @@
 package com.example.snplc.ui.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.snplc.R
-import com.example.snplc.ui.auth.AuthActivity
-import com.google.firebase.auth.FirebaseAuth
+import com.example.snplc.ui.main.fragments.OthersProfileFragment
+import com.example.snplc.ui.main.fragments.SettingsFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -49,6 +49,22 @@ class MainActivity : AppCompatActivity() {
                 R.id.globalActionToCreatePostFragment
             )
         }
+
+        supportFragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
+            override fun onFragmentViewCreated(fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) {
+//                TransitionManager.beginDelayedTransition(binding.root, Slide(Gravity.BOTTOM).excludeTarget(R.id.nav_host_fragment, true))
+                when (f) {
+                    is SettingsFragment, is OthersProfileFragment -> {
+                        bottomAppBar.visibility = View.GONE
+                        fabNewPost.visibility = View.GONE
+                    }
+                    else -> {
+                        bottomAppBar.visibility = View.VISIBLE
+                        fabNewPost.visibility = View.VISIBLE
+                    }
+                }
+            }
+        }, true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -37,6 +37,10 @@ class HomeFragment() : BasePostFragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
 
+        swipeRefreshLayout.setOnRefreshListener {
+            postAdapter.refresh()
+        }
+
         lifecycleScope.launch {
             viewModel.pagingFlow.collect {
                 postAdapter.submitData(it)
@@ -46,8 +50,11 @@ class HomeFragment() : BasePostFragment(R.layout.fragment_home) {
 
         lifecycleScope.launch {
             postAdapter.loadStateFlow.collectLatest {
-                allPostsProgressBar?.isVisible = it.refresh is LoadState.Loading ||
+                val isLoading = it.refresh is LoadState.Loading ||
                         it.append is LoadState.Loading
+                allPostsProgressBar?.isVisible = isLoading
+                swipeRefreshLayout.isRefreshing = isLoading
+
             }
         }
     }

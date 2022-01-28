@@ -45,8 +45,7 @@
 
     <fragment
         android:id="@+id/othersProfileFragment"
-        android:name="com.example.snplc.ui.main.fragments.OthersProfileFragment"
-        android:label="OthersProfileFragment" >
+        android:name="com.example.snplc.ui.main.fragments.OthersProfileFragment">
         <argument
             android:name="uid"
             app:argType="string" />

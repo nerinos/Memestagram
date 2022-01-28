@@ -1,7 +1,5 @@
 package com.example.snplc.ui.main.viewmodels
 
-import android.util.Log
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,11 +8,14 @@ import com.example.snplc.data.entities.Comment
 import com.example.snplc.other.Event
 import com.example.snplc.other.Resource
 import com.example.snplc.repositories.MainRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CommentViewModel @ViewModelInject constructor(
+@HiltViewModel
+class CommentViewModel @Inject constructor(
     private val repository: MainRepository,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : ViewModel() {

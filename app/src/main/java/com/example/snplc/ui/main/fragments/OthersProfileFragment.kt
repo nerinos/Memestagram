@@ -4,9 +4,11 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.animation.OvershootInterpolator
+import android.widget.Toast
 
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
 import androidx.transition.ChangeBounds
@@ -14,6 +16,7 @@ import androidx.transition.TransitionManager
 import com.example.snplc.R
 import com.example.snplc.data.entities.User
 import com.example.snplc.other.EventObserver
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class OthersProfileFragment : ProfileFragment() {
@@ -69,7 +72,7 @@ class OthersProfileFragment : ProfileFragment() {
                 setTextColor(ContextCompat.getColor(requireContext(), R.color.darkBackground))
                 set2.applyTo(clProfile)
             }
-
+            isGone = FirebaseAuth.getInstance().uid == user.uid
         }
     }
 }

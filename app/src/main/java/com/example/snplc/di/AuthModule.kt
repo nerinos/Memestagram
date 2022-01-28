@@ -5,14 +5,14 @@ import com.example.snplc.repositories.DefaultAuthRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.scopes.ActivityScoped
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
-@InstallIn(ActivityComponent::class)
+@InstallIn(ViewModelComponent::class)
 object AuthModule {
 
-    @ActivityScoped // singleton for activity scope
+    @ViewModelScoped // singleton for activity scope
     @Provides
     fun provideAuthRepository() = DefaultAuthRepository() as AuthRepository // dagger не кастит
 }

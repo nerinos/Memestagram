@@ -1,6 +1,5 @@
 package com.example.snplc.ui.main.viewmodels
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -16,12 +15,15 @@ import com.example.snplc.other.Event
 import com.example.snplc.other.Resource
 import com.example.snplc.repositories.MainRepository
 import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProfileViewModel @ViewModelInject constructor(
+@HiltViewModel
+class ProfileViewModel @Inject constructor(
     private val repository: MainRepository,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : BasePostViewModel(repository, dispatcher){

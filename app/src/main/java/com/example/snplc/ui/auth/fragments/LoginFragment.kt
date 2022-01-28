@@ -6,8 +6,6 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.snplc.R
 import com.example.snplc.other.EventObserver
@@ -16,6 +14,7 @@ import com.example.snplc.ui.main.MainActivity
 import com.example.snplc.ui.snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_login.*
+
 @AndroidEntryPoint
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
